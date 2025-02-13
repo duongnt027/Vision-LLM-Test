@@ -1,0 +1,6 @@
+torch
+pillow
+requests
+langchain-core
+transformers
+qwen-vl-utils
