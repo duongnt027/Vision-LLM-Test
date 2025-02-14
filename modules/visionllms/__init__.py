@@ -1,3 +1,3 @@
-from modules.basevl import *
-from modules.qwenvl import *
-from modules.llamavl import *
+from modules.visionllms.basevl import *
+from modules.visionllms.qwenvl import *
+from modules.visionllms.llamavl import *
