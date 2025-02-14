@@ -56,7 +56,7 @@ class QwenVL(BaseVL):
                 "content": [
                     {
                         "type": "image",
-                        "image": image_path,
+                        "image": img_path,
                     },
                     {
                         "type": "text",
