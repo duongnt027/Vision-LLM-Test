@@ -48,7 +48,7 @@ class QwenVL(BaseVL):
             user_prompt (str, optional): Text user prompt to guide the processing
         """
 
-        messsages = []
+        messages = []
         messages.append(self.system_message)
         messages.append(
             {
