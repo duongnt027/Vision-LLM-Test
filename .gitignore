@@ -160,3 +160,10 @@ cython_debug/
 #.idea/
 
 olds/
+data/
+result_imgs/
+output.json
+predictions.json
+result.json
+show_test.py
+test.py

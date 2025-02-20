@@ -4,6 +4,7 @@ from typing import Optional, Any, Dict
 from qwen_vl_utils import process_vision_info
 from langchain_core.output_parsers import JsonOutputParser
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
+from utils import image_640
 
 from modules.visionllms import BaseVL
 
@@ -47,7 +48,7 @@ class QwenVL(BaseVL):
             img_path (str, optional): Path to the input image
             user_prompt (str, optional): Text user prompt to guide the processing
         """
-
+        image_640(img_path)
         messages = []
         messages.append(self.system_message)
         messages.append(
