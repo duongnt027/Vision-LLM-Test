@@ -4,3 +4,4 @@ requests
 langchain-core
 transformers
 qwen-vl-utils
+matplotlib
