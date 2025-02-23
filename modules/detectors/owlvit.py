@@ -37,3 +37,9 @@ class OwlVit(Base):
                 }
             )
         return detected
+
+    def simplize(self, detected):
+        s_detected = {}
+        for detected_key, detected_val in detected.items():
+            s_detected[detected_key] = detected_val['bbox']
+        return s_detected
