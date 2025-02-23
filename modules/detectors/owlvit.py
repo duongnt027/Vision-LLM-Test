@@ -43,5 +43,5 @@ class OwlVit(Base):
         for detected_key, detected_val in detected.items():
             s_detected[detected_key] = []
             for val in detected_val:
-                s_detected[detected_key].append(val[detected_key])
+                s_detected[detected_key].append(val['bbox'])
         return s_detected
