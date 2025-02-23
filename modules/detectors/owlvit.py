@@ -41,5 +41,7 @@ class OwlVit(Base):
     def simplize(self, detected):
         s_detected = {}
         for detected_key, detected_val in detected.items():
-            s_detected[detected_key] = detected_val['bbox']
+            s_detected[detected_key] = []
+            for val in detected_val:
+                s_detected[detected_key].append(val[detected_key])
         return s_detected
