@@ -107,7 +107,7 @@ class QwenVL(BaseVL):
 
         return output_text
     
-class QwenVL(BaseVL):
+class QwenVL25(BaseVL):
     def __init__(self, model_name: str = "Qwen/Qwen2.5-VL-7B-Instruct", device: str = "cuda", system_prompt: str = "") -> None:
         """Initialize the Llama vision-language model.
 
