@@ -5,3 +5,4 @@ langchain-core
 transformers
 qwen-vl-utils
 matplotlib
+accelerate==0.26.0
