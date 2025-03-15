@@ -46,7 +46,7 @@ class OwlVit(Base):
 
         target_sizes = torch.Tensor([image.size[::-1]])
         results = self.processor.post_process_image_guided_detection(
-                outputs=outputs, 
+                outputs=outputs.image_guided_detection(), 
                 target_sizes=target_sizes, 
                 threshold=threshold,
                 nms_threshold = nms_threshold
