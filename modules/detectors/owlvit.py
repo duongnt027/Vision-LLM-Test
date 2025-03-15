@@ -37,6 +37,34 @@ class OwlVit(Base):
                 }
             )
         return detected
+    
+    def process2(self, image_path, objects, threshold=0.1, nms_threshold=0.3):
+        image = image_640(image_path)
+        image = Image.open(image_path)
+        inputs = self.processor(text=[objects], images=image, return_tensors="pt")
+        outputs = self.model(**inputs)
+
+        target_sizes = torch.Tensor([image.size[::-1]])
+        results = self.processor.post_process_image_guided_detection(
+                outputs=outputs, 
+                target_sizes=target_sizes, 
+                threshold=threshold,
+                nms_threshold = nms_threshold
+            )
+        i = 0
+        boxes, scores, labels = results[i]["boxes"], results[i]["scores"], results[i]["labels"]
+        detected = {}
+        for box, score, label in zip(boxes, scores, labels):
+            box = [round(i, 2) for i in box.tolist()]
+            if objects[label] not in detected:
+                detected[objects[label]] = []
+            detected[objects[label]].append(
+                {
+                    "bbox": box,
+                    "score": score.item(),
+                }
+            )
+        return detected
 
     def simplize(self, detected):
         s_detected = {}
