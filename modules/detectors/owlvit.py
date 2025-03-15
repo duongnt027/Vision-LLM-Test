@@ -11,7 +11,7 @@ class OwlVit(Base):
         self.processor = OwlViTProcessor.from_pretrained(model_name)
         self.model = OwlViTForObjectDetection.from_pretrained(model_name)
 
-    def process(self, image_path, objects):
+    def process(self, image_path, objects, threshold=0.1):
         image = image_640(image_path)
         image = Image.open(image_path)
         inputs = self.processor(text=[objects], images=image, return_tensors="pt")
@@ -21,7 +21,7 @@ class OwlVit(Base):
         results = self.processor.post_process_object_detection(
                 outputs=outputs, 
                 target_sizes=target_sizes, 
-                threshold=0.1
+                threshold=threshold
             )
         i = 0
         boxes, scores, labels = results[i]["boxes"], results[i]["scores"], results[i]["labels"]
