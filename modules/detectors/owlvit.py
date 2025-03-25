@@ -8,18 +8,21 @@ import numpy as np
 
 class OwlVit(Base):
 
-    def __init__(self, model_name: str = 'google/owlvit-base-patch32'):
+    def __init__(self, model_name: str = 'google/owlvit-base-patch32', device: str = "cuda"):
         super().__init__(model_name)
+        self.device = device
         self.processor = OwlViTProcessor.from_pretrained(model_name)
-        self.model = OwlViTForObjectDetection.from_pretrained(model_name)
+        self.model = OwlViTForObjectDetection.from_pretrained(model_name).to(self.device)
 
     def process(self, image_path, objects, threshold=0.1):
         image = image_640(image_path)
         image = Image.open(image_path)
         inputs = self.processor(text=[objects], images=image, return_tensors="pt")
+        # Move inputs to device
+        inputs = {k: v.to(self.device) for k, v in inputs.items()}
         outputs = self.model(**inputs)
 
-        target_sizes = torch.Tensor([image.size[::-1]])
+        target_sizes = torch.Tensor([image.size[::-1]]).to(self.device)
         results = self.processor.post_process_object_detection(
                 outputs=outputs, 
                 target_sizes=target_sizes, 
@@ -49,10 +52,11 @@ class OwlVit(Base):
         return s_detected
 
 class OwlVit2(Base):
-    def __init__(self, model_name: str = 'google/owlv2-base-patch16'):
+    def __init__(self, model_name: str = 'google/owlv2-base-patch16', device: str = "cuda"):
         super().__init__(model_name)
+        self.device = device
         self.processor = AutoProcessor.from_pretrained(model_name)
-        self.model = Owlv2ForObjectDetection.from_pretrained(model_name)
+        self.model = Owlv2ForObjectDetection.from_pretrained(model_name).to(self.device)
 
     def get_preprocessed_image(self, pixel_values):
         pixel_values = pixel_values.squeeze().numpy()
@@ -66,12 +70,14 @@ class OwlVit2(Base):
         image = image_640(image_path)
         image = Image.open(image_path)
         inputs = self.processor(text=[objects], images=image, return_tensors="pt")
+        # Move inputs to device
+        inputs = {k: v.to(self.device) for k, v in inputs.items()}
         
         with torch.no_grad():
             outputs = self.model(**inputs)
 
         unnormalized_image = self.get_preprocessed_image(inputs.pixel_values)
-        target_sizes = torch.Tensor([unnormalized_image.size[::-1]])
+        target_sizes = torch.Tensor([unnormalized_image.size[::-1]]).to(self.device)
         
         results = self.processor.post_process_object_detection(
             outputs=outputs,
