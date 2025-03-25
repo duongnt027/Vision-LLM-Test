@@ -1,4 +1,5 @@
 import torch
+from typing import Optional
 from qwen_vl_utils import process_vision_info
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, Qwen2_5_VLForConditionalGeneration
 from utils import image_640
