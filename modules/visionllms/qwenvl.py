@@ -1,8 +1,5 @@
-import json
 import torch
-from typing import Optional, Any, Dict
 from qwen_vl_utils import process_vision_info
-from langchain_core.output_parsers import JsonOutputParser
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor, Qwen2_5_VLForConditionalGeneration
 from utils import image_640
 

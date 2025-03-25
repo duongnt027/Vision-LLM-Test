@@ -1,6 +1,3 @@
-import torch
-from transformers import OwlViTProcessor, OwlViTForObjectDetection
-
 class Base:
 
     def __init__(self, model_name: str = ""):
