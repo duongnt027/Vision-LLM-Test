@@ -69,14 +69,14 @@ class OwlVit2(Base):
     def process(self, image_path, objects, threshold=0.2):
         image = image_640(image_path)
         image = Image.open(image_path)
-        inputs = self.processor(text=[objects], images=image, return_tensors="pt")
+        inputs_org = self.processor(text=[objects], images=image, return_tensors="pt")
         # Move inputs to device
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
+        inputs = {k: v.to(self.device) for k, v in inputs_org.items()}
         
         with torch.no_grad():
             outputs = self.model(**inputs)
 
-        unnormalized_image = self.get_preprocessed_image(inputs.pixel_values)
+        unnormalized_image = self.get_preprocessed_image(inputs_org.pixel_values)
         target_sizes = torch.Tensor([unnormalized_image.size[::-1]]).to(self.device)
         
         results = self.processor.post_process_object_detection(
