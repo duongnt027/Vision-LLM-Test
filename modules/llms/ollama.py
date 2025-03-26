@@ -4,8 +4,12 @@ import subprocess
 import sys
 import time
 import logging
+from pydantic import BaseModel
 
 from modules.llms import BaseLLM
+
+class OllamaResponse(BaseModel):
+    objects: list[str]
 
 class OllamaLLM(BaseLLM):
     def __init__(self, model_name="llama3", system_prompt=""):
@@ -102,7 +106,8 @@ class OllamaLLM(BaseLLM):
                 "prompt": prompt,
                 "stream": False,
                 "temperature": temperature,
-                "max_tokens": max_tokens
+                "max_tokens": max_tokens,
+                "format": OllamaResponse.model_json_schema()
             }
             
             # Add system prompt if provided
